@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 10102614968905683}
   - component: {fileID: 2942037476640629459}
   - component: {fileID: 4204932339287875810}
-  m_Layer: 0
+  - component: {fileID: 8553788839111949891}
+  m_Layer: 8
   m_Name: Ruby_png (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,3 +126,23 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   throwSound: {fileID: 0}
   hitSound: {fileID: 0}
+--- !u!95 &8553788839111949891
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10102614968905680}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b77822e0485373d40b5beb92e9a5e728, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
