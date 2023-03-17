@@ -2,24 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class HealthCollectible : MonoBehaviour
+
 {
+    public GameObject pickupParticlesPrefab;
+
     public AudioClip collectedClip;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("cogido");
-
         RubyController controller = other.GetComponent<RubyController>();
 
         if (controller != null)
         {
-           
-            
-                controller.ChangeHealth(1);
+            if (controller.health < controller.maxHealth)
+            {
+                 controller.ChangeHealth(1);
+                 GameObject pickupParticleObject = Instantiate(pickupParticlesPrefab,transform.position, Quaternion.identity);
+                //ParticleSystem particleSystem = pickupParticleObject.GetComponent<ParticleSystem>();
+                //particleSystem.start();
+                
                 Destroy(gameObject);
-              //  controller.PlaySound(collectedClip);
-            
+
+                //controller.PlaySound(collectedClip);
+            }
         }
 
     }
