@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
 
     public ParticleSystem smokeEffect;
 
+    public AudioClip robotFixed;
+
     Rigidbody2D rigidbody2d;
     float timer;
     int direction = 1;
@@ -17,11 +19,14 @@ public class EnemyController : MonoBehaviour
 
     Animator animator;
 
+    AudioSource audioSource; 
+
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -75,10 +80,12 @@ public class EnemyController : MonoBehaviour
     {
         broken = false;
         rigidbody2d.simulated = false;
-
         //optional if you added the fixed animation
         animator.SetTrigger("Fixed");
-
         smokeEffect.Stop();
+        audioSource.loop= false;
+        audioSource.PlayOneShot(robotFixed);
+
     }
+
 }

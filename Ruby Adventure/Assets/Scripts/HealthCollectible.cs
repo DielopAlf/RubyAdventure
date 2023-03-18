@@ -18,14 +18,15 @@ public class HealthCollectible : MonoBehaviour
         {
             if (controller.health < controller.maxHealth)
             {
-                 controller.ChangeHealth(1);
-                 GameObject pickupParticleObject = Instantiate(pickupParticlesPrefab,transform.position, Quaternion.identity);
-                //ParticleSystem particleSystem = pickupParticleObject.GetComponent<ParticleSystem>();
-                //particleSystem.start();
-                
-                Destroy(gameObject);
+               controller.ChangeHealth(1);
+               controller.PlaySound(collectedClip);
+               GameObject pickupParticleObject = Instantiate(pickupParticlesPrefab,transform.position, Quaternion.identity);
+               
+               //ParticleSystem particleSystem = pickupParticleObject.GetComponent<ParticleSystem>();
+               //particleSystem.start();
+               Destroy(gameObject);
 
-                //controller.PlaySound(collectedClip);
+               
             }
         }
 
