@@ -5,11 +5,9 @@ using UnityEngine;
 public class RubyController : MonoBehaviour
 {
     public float speed = 3.0f;
-
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
     public GameObject projectilePrefab;
-
     public AudioClip throwSound;
     public AudioClip hitSound;
 
@@ -17,22 +15,21 @@ public class RubyController : MonoBehaviour
     int currentHealth;
     bool isInvincible;
     float invincibleTimer;
-
     Rigidbody2D rigidbody2d;
-
     Animator animator;
     Vector2 lookDirection = new Vector2(1, 0);
-
     AudioSource audioSource;
+
+    //public PUERTA2 door; // Referencia al script de la puerta
+    public Puerta3 door;
+ // public Puerta door;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
         currentHealth = maxHealth;
-
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -84,6 +81,11 @@ public class RubyController : MonoBehaviour
                 }
             }*/
         }
+
+        if (Input.GetKeyDown(KeyCode.Space)) // Si se presiona el botón de espacio
+        {
+            door.Open(); // Se llama a la función Open() del script de la puerta
+        }
     }
 
     public void ChangeHealth(int amount)
@@ -100,7 +102,6 @@ public class RubyController : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-
         UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
@@ -119,5 +120,13 @@ public class RubyController : MonoBehaviour
     public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
+
+
+       
+    }
+    public void ActivateInvincibility(float duration)
+    {
+        isInvincible = true;
+        invincibleTimer = duration;
     }
 }
