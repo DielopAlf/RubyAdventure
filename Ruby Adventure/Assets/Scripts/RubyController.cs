@@ -95,7 +95,7 @@ public class RubyController : MonoBehaviour
 
             isInvincible = true;
             invincibleTimer = timeInvincible;
-
+            animator.SetTrigger("Hit");
             PlaySound(hitSound);
         }
 
