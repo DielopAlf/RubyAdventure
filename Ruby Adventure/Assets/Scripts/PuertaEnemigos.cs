@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuertaEnemigos : MonoBehaviour
-{
-    public Enemigo zonaEnemigos;
+/*public class PuertaEnemigos : MonoBehaviour
+  {
+  public Enemigo zonaEnemigos;
     public Animator animator;
     public Collider2D colliderPuerta;
     public int cantidadEnemigosParaAbrir = 10;
