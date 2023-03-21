@@ -4,24 +4,73 @@ using UnityEngine;
 
 public class PUERTA2 : MonoBehaviour
 {
-    
     public Animator animator;
+    public GameObject spritepuerta;
+    SpriteRenderer sprite;
+    BoxCollider2D COLLIDER;
+    bool playerzone;
+    bool open;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Start()
     {
-        if (collision.CompareTag("Player"))
+        playerzone = false;
+        open = false;
+        sprite = spritepuerta.GetComponent<SpriteRenderer>();
+        COLLIDER = spritepuerta.GetComponent<BoxCollider2D>();
+    }
+
+    void Update()
+    {
+        if (playerzone == true && open == false)
         {
-            animator.SetBool("isOpen", true);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                abrir();
+            }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            animator.SetBool("isOpen", false);
+            playerzone = true;
         }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            playerzone = false;
+            if (open == true)
+            {
+                cerrar();
+            }
+        }
+    }
+
+    public void abrir()
+    {
+        open = true;
+        animator.SetBool("isOpen", true);
+        sprite.enabled = false;
+        COLLIDER.enabled = false;
+    }
+
+    public void cerrar()
+    {
+        open = false;
+        animator.SetBool("isOpen", false);
+        sprite.enabled = true;
+        COLLIDER.enabled = true;
+    }
+
+    public void resetPuerta()
+    {
+        open = false;
+        animator.SetBool("isOpen", false);
+        sprite.enabled = true;
+        COLLIDER.enabled = true;
     }
 }
-
-

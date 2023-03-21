@@ -27,6 +27,8 @@ public class EnemyController : MonoBehaviour
         timer = changeTime;
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        nivelsuperado.instance.enemigos+=1;
+
     }
 
     // Update is called once per frame
@@ -85,7 +87,7 @@ public class EnemyController : MonoBehaviour
         smokeEffect.Stop();
         audioSource.loop= false;
         audioSource.PlayOneShot(robotFixed);
-
+        nivelsuperado.instance.enemigosarreglados+=1;
     }
 
 }
