@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class RubyController : MonoBehaviour
 {
     public float speed = 3.0f;
@@ -10,7 +14,8 @@ public class RubyController : MonoBehaviour
     public GameObject projectilePrefab;
     public AudioClip throwSound;
     public AudioClip hitSound;
-
+    public int maxAmmo = 10;
+    public int ammoCount = 10;
     public int health { get { return currentHealth; } }
     int currentHealth;
     bool isInvincible;
@@ -19,21 +24,20 @@ public class RubyController : MonoBehaviour
     Animator animator;
     Vector2 lookDirection = new Vector2(1, 0);
     AudioSource audioSource;
+    public UIengranajes uiAmmo;
 
-    //public PUERTA2 door; // Referencia al script de la puerta
     public Puerta3 door;
- // public Puerta door;
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         audioSource = GetComponent<AudioSource>();
+        uiAmmo.SetMaxAmmo(maxAmmo);
+        uiAmmo.SetAmmo(ammoCount);
     }
 
-    // Update is called once per frame
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -66,25 +70,32 @@ public class RubyController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Launch();
+            LaunchProjectile();
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
             RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
-           /* if (hit.collider != null)
-            {
-                NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
-                if (character != null)
-                {
-                    character.DisplayDialog();
-                }
-            }*/
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)) // Si se presiona el botón de espacio
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            door.Open(); // Se llama a la función Open() del script de la puerta
+            door.Open();
+        }
+    }
+
+    void LaunchProjectile()
+    {
+        if (ammoCount > 0)
+        {
+            ammoCount--;
+            uiAmmo.SetAmmo(ammoCount);
+
+            GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+            Projectile projectile = projectileObject.GetComponent<Projectile>();
+            projectile.Launch(lookDirection, 300);
+            animator.SetTrigger("Launch");
+            PlaySound(throwSound);
         }
     }
 
@@ -105,25 +116,11 @@ public class RubyController : MonoBehaviour
         UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
-    void Launch()
-    {
-        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
-
-        Projectile projectile = projectileObject.GetComponent<Projectile>();
-        projectile.Launch(lookDirection, 300);
-
-        animator.SetTrigger("Launch");
-
-        PlaySound(throwSound);
-    }
-
     public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
-
-
-       
     }
+
     public void ActivateInvincibility(float duration)
     {
         isInvincible = true;
