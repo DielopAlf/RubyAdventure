@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+
 
 public class Projectile : MonoBehaviour
 {
@@ -46,5 +50,12 @@ public class Projectile : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    // Agregar una cantidad de munición al inventario del jugador
+    public void PickupAmmo(int ammoToAdd)
+    {
+        currentAmmo += ammoToAdd;
+        Debug.Log("Picked up " + ammoToAdd + " ammo. Total ammo: " + currentAmmo);
     }
 }

@@ -19,7 +19,7 @@ public class Puerta : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = doorSprites[0];
     }
-
+}
     /*public void OnPointerDown(PointerEventData eventData)
     {
         isButtonDown = true;
@@ -83,6 +83,6 @@ public class Puerta : MonoBehaviour
      
      
      
-     */
+    
 
-}
+} */

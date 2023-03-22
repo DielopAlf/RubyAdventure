@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     float timer;
     int direction = 1;
     bool broken = true;
+    float fixTime = 0.0f; // variable para hacer seguimiento del tiempo de arreglado
 
     Animator animator;
 
@@ -28,43 +29,51 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         nivelsuperado.instance.enemigos+=1;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        //remember ! inverse the test, so if broken is true !broken will be false and return won’t be executed.
-        if (!broken)
+        if (broken)
         {
-            return;
+            timer -= Time.deltaTime;
+
+            if (timer < 0)
+            {
+                direction = -direction;
+                timer = changeTime;
+            }
+
+            Vector2 position = rigidbody2d.position;
+
+            if (vertical)
+            {
+                position.y = position.y + Time.deltaTime * speed * direction;
+                animator.SetFloat("Move X", 0);
+                animator.SetFloat("Move Y", direction);
+            }
+            else
+            {
+                position.x = position.x + Time.deltaTime * speed * direction;
+                animator.SetFloat("Move X", direction);
+                animator.SetFloat("Move Y", 0);
+            }
+
+            rigidbody2d.MovePosition(position);
         }
-
-        timer -= Time.deltaTime;
-
-        if (timer < 0)
+        else // si el enemigo está arreglado, esperar hasta que expire el tiempo de reparación
         {
-            direction = -direction;
-            timer = changeTime;
+            fixTime -= Time.deltaTime;
+
+            if (fixTime < 0)
+            {
+                broken = true;
+                rigidbody2d.simulated = true;
+                animator = GetComponent<Animator>();
+                animator.SetTrigger("Broken");
+                smokeEffect.Play();
+            }
         }
-
-
-        Vector2 position = rigidbody2d.position;
-
-        if (vertical)
-        {
-            position.y = position.y + Time.deltaTime * speed * direction;
-            animator.SetFloat("Move X", 0);
-            animator.SetFloat("Move Y", direction);
-        }
-        else
-        {
-            position.x = position.x + Time.deltaTime * speed * direction;
-            animator.SetFloat("Move X", direction);
-            animator.SetFloat("Move Y", 0);
-        }
-
-        rigidbody2d.MovePosition(position);
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -77,17 +86,21 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    //Public because we want to call it from elsewhere like the projectile script
     public void Fix()
     {
-        broken = false;
-        rigidbody2d.simulated = false;
-        //optional if you added the fixed animation
-        animator.SetTrigger("Fixed");
-        smokeEffect.Stop();
-        audioSource.loop= false;
-        audioSource.PlayOneShot(robotFixed);
-        nivelsuperado.instance.enemigosarreglados+=1;
-    }
+        if (broken) // sólo se puede arreglar si está roto
+        {
+            broken = false;
+            rigidbody2d.simulated = false;
+            animator.SetTrigger("Fixed");
+            animator = GetComponent<Animator>();
+            smokeEffect.Stop();
+            audioSource.loop= false;
+            audioSource.PlayOneShot(robotFixed);
+            nivelsuperado.instance.enemigosarreglados+=1;
 
+            // establecer el tiempo de reparación a 5 segundos
+            fixTime = 5.0f;
+        }
+    }
 }

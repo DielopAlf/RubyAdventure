@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class RubyController : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class RubyController : MonoBehaviour
     Animator animator;
     Vector2 lookDirection = new Vector2(1, 0);
     AudioSource audioSource;
-    public UIengranajes uiAmmo;
+    public UIAmmo uiAmmo;
 
     public Puerta3 door;
 
@@ -34,6 +32,7 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         audioSource = GetComponent<AudioSource>();
+         ammoCount = maxAmmo;
         uiAmmo.SetMaxAmmo(maxAmmo);
         uiAmmo.SetAmmo(ammoCount);
     }
