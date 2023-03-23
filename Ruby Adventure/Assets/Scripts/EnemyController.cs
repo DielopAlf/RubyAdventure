@@ -28,7 +28,10 @@ public class EnemyController : MonoBehaviour
         timer = changeTime;
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-       // nivelsuperado.instance.enemigos+=1;
+
+        nivelsuperado.instance.enemigos+=1;
+        nivelsuperado.instance.numeroenemigos();
+
     }
 
     // Update is called once per frame
@@ -61,7 +64,7 @@ public class EnemyController : MonoBehaviour
 
             rigidbody2d.MovePosition(position);
         }
-      /*  else // si el enemigo está arreglado, esperar hasta que expire el tiempo de reparación
+        else // si el enemigo está arreglado, esperar hasta que expire el tiempo de reparación
         {
             fixTime -= Time.deltaTime;
 
@@ -69,11 +72,11 @@ public class EnemyController : MonoBehaviour
             {
                 broken = true;
                 rigidbody2d.simulated = true;
-                animator = GetComponent<Animator>();
-                animator.SetTrigger("Broken");
+                animator.SetTrigger("BROKEN");
+
                 smokeEffect.Play();
             }
-        }*/
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -98,9 +101,10 @@ public class EnemyController : MonoBehaviour
             audioSource.loop= false;
             audioSource.PlayOneShot(robotFixed);
             nivelsuperado.instance.enemigosarreglados+=1;
+            nivelsuperado.instance.numeroenemigos();
 
             // establecer el tiempo de reparación a 5 segundos
-           // fixTime = 5.0f;
+            fixTime = 5.0f;
         }
     }
 }

@@ -23,6 +23,8 @@ public class AmmoPickup : MonoBehaviour
                 ruby.ammoCount = Mathf.Clamp(ruby.ammoCount, 0, ruby.maxAmmo);
                 ruby.uiAmmo.SetAmmo(ruby.ammoCount);
                 Destroy(gameObject);
+                //seria a la municion;
+                //ruby.disparoespecial=true;
             }
         }
     }

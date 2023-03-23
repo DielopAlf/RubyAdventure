@@ -9,7 +9,8 @@ public class nivelsuperado : MonoBehaviour
     public static nivelsuperado instance;
     public PUERTA2[] puertasfinales;
     bool final;
-
+    public UIAmmo canvas;
+    
     void Awake()
     {
         if (instance != null && instance != this)
@@ -23,6 +24,7 @@ public class nivelsuperado : MonoBehaviour
 
         final = false;
     }
+    
 
     void Update()
     {
@@ -40,5 +42,11 @@ public class nivelsuperado : MonoBehaviour
 
             final = true;
         }
+    }
+    public void numeroenemigos()
+    {
+        canvas.SetEnemy(enemigos,enemigosarreglados);
+
+
     }
 }

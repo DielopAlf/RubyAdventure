@@ -23,7 +23,8 @@ public class RubyController : MonoBehaviour
     Vector2 lookDirection = new Vector2(1, 0);
     AudioSource audioSource;
     public UIAmmo uiAmmo;
-
+    bool disparoespecial;
+    Vector2 offset;
     public Puerta3 door;
 
     void Start()
@@ -35,6 +36,8 @@ public class RubyController : MonoBehaviour
          ammoCount = maxAmmo;
         uiAmmo.SetMaxAmmo(maxAmmo);
         uiAmmo.SetAmmo(ammoCount);
+        disparoespecial=false;
+
     }
 
     void Update()
@@ -69,7 +72,14 @@ public class RubyController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            LaunchProjectile();
+          if (disparoespecial == false)
+          {
+             LaunchProjectile();
+          }
+          else
+          {
+           Launchmultipleshots();
+          }
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -109,7 +119,35 @@ public class RubyController : MonoBehaviour
             PlaySound(throwSound);
         }
     }
+    public void Launchmultipleshots()
+    {
+        if (ammoCount > 0)
+        {
+            ammoCount--;
+            uiAmmo.SetAmmo(ammoCount);
+           
 
+
+            for(int i =0; i < 3; i++)
+            {
+               
+               
+                GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+                Projectile projectile = projectileObject.GetComponent<Projectile>();
+                projectile.Launch(lookDirection, 300);
+
+   
+
+
+            }
+
+            
+            animator.SetTrigger("Launch");
+            PlaySound(throwSound);
+        }
+
+
+    }
     public void ChangeHealth(int amount)
     {
         if (amount < 0)

@@ -7,13 +7,14 @@ using TMPro;
 
 public class UIAmmo : MonoBehaviour
 {
-    private Text ammoText;
+    public TextMeshProUGUI ammoText;
+     public TextMeshProUGUI enemytext;
     public int maxAmmo=10;
     public int ammoCount=10;
 
     void Start()
     {
-        ammoText = GetComponent<Text>();
+        //ammoText = GetComponent<Text>();
         SetMaxAmmo(maxAmmo);
         SetAmmo(ammoCount);
     }
@@ -21,12 +22,18 @@ public class UIAmmo : MonoBehaviour
     public void SetMaxAmmo(int amount)
     {
         maxAmmo = amount;
-       // ammoText.text = "Ammo: " + ammoCount + " / " + maxAmmo;
+        ammoText.text = "Ammo: " + ammoCount + " / " + maxAmmo;
     }
 
     public void SetAmmo(int amount)
     {
         ammoCount = amount;
-        //ammoText.text = "Ammo: " + ammoCount + " / " + maxAmmo;
+        ammoText.text = "Ammo: " + ammoCount + " / " + maxAmmo;
+    }
+    public void SetEnemy(  int enemigostotales,int enemigosarreglados)
+    {
+     
+      enemytext.text= "Te quedan "+ enemigosarreglados + " / "+enemigostotales;
+
     }
 }
