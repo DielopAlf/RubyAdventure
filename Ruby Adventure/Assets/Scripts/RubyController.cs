@@ -26,6 +26,10 @@ public class RubyController : MonoBehaviour
     bool disparoespecial;
     Vector2 offset;
     public Puerta3 door;
+    public float fireRate = 0.5f;
+    public float powerUpDuration = 5.0f;
+    bool isPoweredUp = false;
+    float lastFireTime = 0.5f;
 
     void Start()
     {
@@ -106,19 +110,25 @@ public class RubyController : MonoBehaviour
     }
 
     void LaunchProjectile()
+   
     {
-        if (ammoCount > 0)
-        {
-            ammoCount--;
-            uiAmmo.SetAmmo(ammoCount);
+    if (Time.time - lastFireTime >= fireRate && ammoCount > 0)
+    {
+        ammoCount--;
+        uiAmmo.SetAmmo(ammoCount);
 
-            GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
-            Projectile projectile = projectileObject.GetComponent<Projectile>();
-            projectile.Launch(lookDirection, 300);
-            animator.SetTrigger("Launch");
-            PlaySound(throwSound);
-        }
+        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+        Projectile projectile = projectileObject.GetComponent<Projectile>();
+        projectile.Launch(lookDirection, 300);
+        animator.SetTrigger("Launch");
+        PlaySound(throwSound);
+
+        
     }
+    }
+    
+
+  
     public void Launchmultipleshots()
     {
         if (ammoCount > 0)
@@ -153,12 +163,14 @@ public class RubyController : MonoBehaviour
         if (amount < 0)
         {
             if (isInvincible)
+            {
                 return;
 
             isInvincible = true;
             invincibleTimer = timeInvincible;
             animator.SetTrigger("Hit");
             PlaySound(hitSound);
+            }
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
